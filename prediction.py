@@ -1,5 +1,4 @@
-from turtle import forward
-
+import tkinter as gui
 
 database = {
     'Sleman':{
@@ -124,8 +123,14 @@ if __name__ == "__main__":
     # C = int(input("Masukkan banyak pohon : "))
     # D = float(input("Masukkan kecepatan angin (km/jam) : "))
     
-    A = 120
-    B = 2.5
-    C = 8000
+    # A = 120
+    # B = 2.5
+    # C = 8000
+    # D = 12.5
+    # solve(get_fact(A,B,C,D))
+    
+    A = 30
+    B = 10
+    C = 15000
     D = 12.5
     solve(get_fact(A,B,C,D))
