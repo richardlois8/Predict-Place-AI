@@ -19,7 +19,6 @@ reset($_GET);
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>
 <style>
     option{
@@ -58,7 +57,7 @@ reset($_GET);
             </div>
         </div>
     </header>
-    <!-- About-->
+    <!-- Search Place Form-->
     <section class="about-section text-center" id="searchPlace">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -66,16 +65,11 @@ reset($_GET);
                     <h2 class="text-white mb-4">Where do you want to go?</h2>
                     <p class="text-white-50">
                         Please choose place do you want to go around Yogyakarta
-                        <!-- <a href="https://startbootstrap.com/theme/grayscale/">the preview page.</a>
-                        The theme is open source, and you can use it for any purpose, personal or commercial. -->
                     </p>
                     <form action="index.php" method="get" style="padding-bottom:50px;" id="formLoc">
-                        <!-- <label for="place" style="color:white; padding-bottom:10px;">Choose Location : </label> -->
                         <div class="dropdown" style="padding-bottom:20px;">
-                            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                                Location    
-                            </button> -->
-                            <select name="place" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <select name="place" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false" onchange="submit()">
                                 <option value="" disabled selected hidden>Choose Location</option>
                                 <option value="yogyakarta"><span>Yogyakarta</span></option>
                                 <option value="sleman"><span>Sleman</span></option>
@@ -90,7 +84,8 @@ reset($_GET);
                                 <option value="ngemplak"><span>Ngemplak</span></option>
                             </select>
                         </div>
-                        <button onclick="showModal();" type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        id="btnSend">
                         Submit
                         </button>
                     </form>
@@ -101,27 +96,21 @@ reset($_GET);
                         $data = getData($_GET['place']);
                         $facts = getFact($data);
                         $result = solve($facts); 
-                        echo '<script>alert("'.$result[1].'\n'.$result[2].'\n\nKesimpulan : '.$result[0].'")</script>';
+                        // echo '<script>alert("'.$result[1].'\n'.$result[2].'\n\nKesimpulan : '.$result[0].'")</script>';
                         reset($_GET);
-                        ?>
-                        
-                    <?php }
+                    }
                     ?>
-                    <script>
-                        function showModal(){
-                            $("#exampleModal").modal("show");
-                        }
-                    </script>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                        <div class="modal-dialog">
                            <div class="modal-content">
                            <div class="modal-header">
-                               <h5 class="modal-title" id="exampleModalLabel">Prediction</h5>
+                               <h5 class="modal-title" id="exampleModalLabel">Prediksi Daerah <?php if($_GET){echo ucfirst($_GET['place']);}  ?></h5>
                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                            </div>
                            <div class="modal-body">
-                               <h5><?= $result;  ?></h5>
+                               <h5><?php if(isset($variable)){echo $result[1].'<br>'.$result[2].'<br><br>Kesimpulan : '.$result[0];}else{echo "Welcome to our Prediction Website.";} ?></h5>
+                                </h5>
                            </div>
                            <div class="modal-footer">
                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -129,7 +118,19 @@ reset($_GET);
                            </div>
                        </div>
                     </div>
-
+                    
+                    <script>
+                        var checkData = false;
+                        function submit(){
+                            document.getElementById('formLoc').submit();
+                            checkData = true;
+                        }
+                        document.getElementById('btnSend').click();
+                        // if(checkData === true){
+                        //     document.getElementById('btnSend').click();
+                        //     checkData = false;
+                        // }
+                    </script>
                 </div>
             </div>
             <!-- <img class="img-fluid" src="assets/img/ipad.png" alt="..." /> -->

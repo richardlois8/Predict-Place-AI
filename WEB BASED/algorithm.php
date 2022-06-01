@@ -158,19 +158,24 @@ function solve($facts){
     $R7 = new Rule("D >= 30", "K");
     $R8 = new Rule("D < 30", "L");
     $R9 = new Rule("I AND K", "M");
-    $R10 = new Rule("J AND K", "M");
-    $R11 = new Rule("I AND L", "N");
+    $R10 = new Rule("J AND K", "MN");
+    $R11 = new Rule("I AND L", "MN");
     $R12 = new Rule("J AND L", "N");
     $R13 = new Rule("E AND H", "O");
-    $R14 = new Rule("E AND G", "O");
-    $R15 = new Rule("F AND H", "O");
+    $R14 = new Rule("E AND G", "OP");
+    $R15 = new Rule("F AND H", "OP");
     $R16 = new Rule("F AND G", "P");
     $R17 = new Rule("O AND M", "X");
-    $R18 = new Rule("O AND N", "X");
-    $R19 = new Rule("P AND M", "X");
-    $R20 = new Rule("P AND N", "Y");
-    $rules = [$R1,$R2,$R3,$R4,$R5,$R6,$R7,$R8,$R9,$R10,$R11,$R12,$R13,$R14,$R15,$R16,$R17,$R18,$R19,$R20];
-    $consDef = array("O"=>"Daerah rawan banjir", "M"=>"Daerah rawan pohon tumbang", "N"=>"Daerah aman dari pohon tumbang", "P"=>"Daerah aman dari banjir");
+    $R18 = new Rule("M AND OP", "XY");
+    $R19 = new Rule("MN AND O", "XY");
+    $R20 = new Rule("O AND N", "Y");
+    $R21 = new Rule("MN AND OP", "Y");
+    $R22 = new Rule("P AND M", "Y");
+    $R23 = new Rule("N AND OP", "YZ");
+    $R24 = new Rule("MN AND P", "YZ");
+    $R25 = new Rule("P AND N", "Z");
+    $rules = [$R1,$R2,$R3,$R4,$R5,$R6,$R7,$R8,$R9,$R10,$R11,$R12,$R13,$R14,$R15,$R16,$R17,$R18,$R19,$R20,$R21,$R22,$R23,$R24,$R25];
+    $consDef = array("O"=>"Daerah rawan banjir", "M"=>"Daerah rawan pohon tumbang", "N"=>"Daerah aman dari pohon tumbang", "P"=>"Daerah aman dari banjir","MN"=>"Waspada pohon tumbang","OP"=>"Waspada banjir");
     
     $result = [];
     while(true){
@@ -186,10 +191,22 @@ function solve($facts){
         // var_dump($facts);
         // $counter++;
         if(in_array("X",$facts)){
-            $result[] = "Daerah berbahaya untuk dikunjungi";
+            $result[] = "Daerah sangat berbahaya untuk dikunjungi. Kami menyarankan untuk tidak mengunjungi daerah ini.";
             break;
         }elseif(in_array("Y",$facts)){
-            $result[] = "Daerah aman untuk dikunjungi";
+            $result[] = "Daerah berbahaya tingkat menengah. Kami menyarankan anda untuk menghindari daerah ini.";
+            break;
+        }
+        elseif(in_array("XY",$facts)){
+            $result[] = "Daerah berbahaya tingkat menengah atas. Kami menyarankan anda untuk menghindari daerah ini.";
+            break;
+        }
+        elseif(in_array("YZ",$facts)){
+            $result[] = "Daerah berbahaya tingkat rendah. Kami menyarankan anda untuk menghindari daerah ini.";
+            break;
+        }
+        elseif(in_array("Z",$facts)){
+            $result[] = "Daerah aman untuk dikunjungi. Semoga perjalanan Anda menyenangkan.";
             break;
         }
     }
