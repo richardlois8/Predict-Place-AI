@@ -23,6 +23,7 @@ class Rule{
 
 function getData($kota){
     switch ($kota){
+        # !Expected Result : daerah berbahaya untuk dikunjungi
         case "yogyakarta":
             return array(
                 "curahHujan" => "70",
@@ -30,33 +31,89 @@ function getData($kota){
                 "jumlahPohon" => "6000",
                 "kecepatanAngin" => "15"
             );
+        # !Expected Result : daerah berbahaya untuk dikunjungi
+        # R15 : IF curah hujan rendah and luas daerah resapan sempit THEN daerah rawan banjir.
+        # R18 : IF daerah rawan banjir and aman dari pohon tumbang THEN daerah berbahaya untuk dikunjungi.
         case "sleman":
             return array(
-                "curahHujan" => "50",
-                "daerahResapan" => "2",
-                "jumlahPohon" => "4000",
-                "kecepatanAngin" => "10"
+                "curahHujan" => "49.5",
+                "daerahResapan" => "1.85",
+                "jumlahPohon" => "1905",
+                "kecepatanAngin" => "28.7"
             );
+         # !Expected Result : daerah berbahaya untuk dikunjungi
+        # R14 : IF curah hujan tinggi and luas daerah resapan besar THEN daerah rawan banjir.
+        # R10 : IF jumlah pohon rendah and kecepatan angin tinggi THEN rawan pohon tumbang.
         case "bantul":
             return array(
-                "curahHujan" => "30",
-                "daerahResapan" => "1",
-                "jumlahPohon" => "2000",
-                "kecepatanAngin" => "5"
+                "curahHujan" => "52.5",
+                "daerahResapan" => "2.1",
+                "jumlahPohon" => "6011",
+                "kecepatanAngin" => "38.3"
             );
-        case "gunungkidul":
+        # !Expected Result : daerah berbahaya untuk dikunjungi
+        # R14 : IF curah hujan tinggi and luas daerah resapan besar THEN daerah rawan banjir.
+        # R18 : IF daerah rawan banjir and aman dari pohon tumbang THEN daerah berbahaya untuk dikunjungi.
+        case "gunungkidul": 
             return array(
-                "curahHujan" => "20",
-                "daerahResapan" => "0",
-                "jumlahPohon" => "1000",
-                "kecepatanAngin" => "2"
+                "curahHujan" => "56.1",
+                "daerahResapan" => "2.7",
+                "jumlahPohon" => "2077",
+                "kecepatanAngin" => "14.7"
             );
-        case "kulonprogo":
+        # !Expected Result : daerah aman untuk dikunjungi
+        # R16 : IF curah hujan rendah and luas daerah resapan besar THEN daerah aman banjir.
+        # R11 : IF jumlah pohon tinggi and kecepatan angin rendah THEN aman dari pohon tumbang.
+        case "prambanan":
             return array(
-                "curahHujan" => "30",
-                "daerahResapan" => "10",
-                "jumlahPohon" => "15000",
-                "kecepatanAngin" => "10"
+                "curahHujan" => "38.5",
+                "daerahResapan" => "3.3",
+                "jumlahPohon" => "5152",
+                "kecepatanAngin" => "28.7"
+            );
+         # !Expected Result : daerah berbahaya untuk dikunjungi 
+        # R15 : IF curah hujan rendah and luas daerah resapan sempit THEN daerah rawan banjir.
+        # R18 : IF daerah rawan banjir and aman dari pohon tumbang THEN daerah berbahaya untuk dikunjungi.
+        case "godean":
+            return array(
+                "curahHujan" => "20.5",
+                "daerahResapan" => "1.1",
+                "jumlahPohon" => "1077",
+                "kecepatanAngin" => "14.7"
+            );
+        # !Expected Result : daerah berbahaya untuk dikunjungi
+        case "pakem":
+            return array(
+                "curahHujan" => "52.5",
+                "daerahResapan" => "1.87",
+                "jumlahPohon" => "1527",
+                "kecepatanAngin" => "29.9"
+            );
+        # !Expected Result : daerah berbahaya untuk dikunjungi
+        # R10 : IF jumlah pohon rendah and kecepatan angin tinggi THEN rawan pohon tumbang.
+        # R19 : IF daerah aman banjir and rawan pohon tumbang THEN daerah berbahaya untuk dikunjungi.
+        case "cangkringan":
+            return array(
+                "curahHujan" => "40.5",
+                "daerahResapan" => "2.0",
+                "jumlahPohon" => "995",
+                "kecepatanAngin" => "30.7"
+            );
+        # !Expected Result : daerah berbahaya untuk dikunjungi
+        case "moyudan":
+            return array(
+                "curahHujan" => "60.5",
+                "daerahResapan" => "1.77",
+                "jumlahPohon" => "6077",
+                "kecepatanAngin" => "40.7"
+            );
+        # !Expected Result : daerah aman untuk dikunjungi
+        case "ngemplak":
+            return array(
+                "curahHujan" => "20.5",
+                "daerahResapan" => "2.1",
+                "jumlahPohon" => "1077",
+                "kecepatanAngin" => "21.7"
             );
     }
 }
@@ -113,9 +170,9 @@ function solve($facts){
     $R19 = new Rule("P AND M", "X");
     $R20 = new Rule("P AND N", "Y");
     $rules = [$R1,$R2,$R3,$R4,$R5,$R6,$R7,$R8,$R9,$R10,$R11,$R12,$R13,$R14,$R15,$R16,$R17,$R18,$R19,$R20];
+    $consDef = array("O"=>"Daerah rawan banjir", "M"=>"Daerah rawan pohon tumbang", "N"=>"Daerah aman dari pohon tumbang", "P"=>"Daerah aman dari banjir");
     
-    $result = "";
-    // $counter = 1;
+    $result = [];
     while(true){
         for($i=0;$i<count($rules);$i++){
             $antecedents = $rules[$i]->getAntencedent();
@@ -129,13 +186,15 @@ function solve($facts){
         // var_dump($facts);
         // $counter++;
         if(in_array("X",$facts)){
-            $result = "Daerah berbahaya untuk dikunjungi";
+            $result[] = "Daerah berbahaya untuk dikunjungi";
             break;
         }elseif(in_array("Y",$facts)){
-            $result = "Daerah aman untuk dikunjungi";
+            $result[] = "Daerah aman untuk dikunjungi";
             break;
         }
     }
+    $result[] = $consDef[$facts[count($facts)-3]];
+    $result[] = $consDef[$facts[count($facts)-2]];
 
     return $result;
 }
