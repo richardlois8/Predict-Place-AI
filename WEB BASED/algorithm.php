@@ -47,7 +47,7 @@ function getData($kota){
         case "bantul":
             return array(
                 "curahHujan" => "52.5",
-                "daerahResapan" => "2.1",
+                "daerahResapan" => "1.9",
                 "jumlahPohon" => "6011",
                 "kecepatanAngin" => "38.3"
             );
