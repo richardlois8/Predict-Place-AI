@@ -109,7 +109,7 @@ reset($_GET);
                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                            </div>
                            <div class="modal-body">
-                               <h5><?php if(isset($variable)){echo $result[1].'<br>'.$result[2].'<br><br>Kesimpulan : '.$result[0];}else{echo "Welcome to our Prediction Website.";} ?></h5>
+                               <h5><?php if(isset($result)){echo $result[1].'<br>'.$result[2].'<br><br>Kesimpulan : '.$result[0];}else{ echo "Welcome to our Prediction Website.";} ?></h5>
                                 </h5>
                            </div>
                            <div class="modal-footer">
