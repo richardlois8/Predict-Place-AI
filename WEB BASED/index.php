@@ -120,10 +120,8 @@ reset($_GET);
                     </div>
                     
                     <script>
-                        var checkData = false;
                         function submit(){
                             document.getElementById('formLoc').submit();
-                            checkData = true;
                         }
                         document.getElementById('btnSend').click();
                         // if(checkData === true){
