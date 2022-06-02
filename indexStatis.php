@@ -64,44 +64,42 @@ reset($_GET);
                 <div class="col-lg-8">
                     <h2 class="text-white mb-4">Where do you want to go?</h2>
                     <p class="text-white-50">
-                        Type a place do you want to go and we will predict whether the visited place is safe.
+                        Please choose place do you want to go around Yogyakarta
                     </p>
                     <form action="index.php" method="get" style="padding-bottom:50px;" id="formLoc">
-                        <div class="mb-5 align-items-center">
-                            <input type="text" name="place" class="form-control" aria-describedby="placeHelp" placeholder="Place name">
+                        <div class="dropdown d-flex justify-content-center" style="padding-bottom:20px;">
+                            <select name="place" class="btn btn-secondary dropdown-toggle d-flex justify-content-center" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false" onchange="submit()">
+                                <option value="" disabled selected hidden>Choose Location</option>
+                                <option value="yogyakarta"><span class="text-center">Yogyakarta</span></option>
+                                <option value="sleman"><span>Sleman</span></option>
+                                <option value="bantul"><span>Bantul</span></option>
+                                <option value="gunungkidul"><span>Gunung Kidul</span></option>
+                                <option value="kulonprogo"><span>Kulon Progo</span></option>
+                                <option value="prambanan"><span>Prambanan</span></option>
+                                <option value="godean"><span>Godean</span></option>
+                                <option value="pakem"><span>Pakem</span></option>
+                                <option value="cangkringan"><span>Cangkringan</span></option>
+                                <option value="moyudan"><span>Moyudan</span></option>
+                                <option value="ngemplak"><span>Ngemplak</span></option>
+                            </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
                         <button hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         id="btnSend">
+                        Submit
                         </button>
                     </form>
 
                     <!-- Function PHP -->
-                    <div class="flow-algo" class="text-white-50">
-                        <p style="color:white;">
                     <?php  
                     if($_GET){
-                        $data = getData();
-                        echo "Curah hujan :  ".$data['curahHujan']." mm/hari<br>";
-                        echo "Luas daerah resapan : ".$data['daerahResapan']." hektar<br>";
-                        echo "Jumlah pohon : ".$data['jumlahPohon']." pohon<br>";
-                        echo "Kecepatan angin :  ".$data['kecepatanAngin']." km/jam<br><br>";
-                        
+                        $data = getData($_GET['place']);
                         $facts = getFact($data);
                         $result = solve($facts); 
-                        $textRes = "";
-                        foreach ($result[0] as $key => $value){
-                            $textRes .= $key." => ".$value."<br>";
-                        }
-                        echo $textRes;
-                        // echo '<script>alert("'.$result.'")</script>';
                         // echo '<script>alert("'.$result[1].'\n'.$result[2].'\n\nKesimpulan : '.$result[0].'")</script>';
                         reset($_GET);
                     }
                     ?>
-                        </p>
-                    </div>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                        <div class="modal-dialog">
@@ -111,7 +109,7 @@ reset($_GET);
                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                            </div>
                            <div class="modal-body">
-                               <h5><?php if(isset($result)){echo $result[1][1].'<br>'.$result[1][2].'<br><br>Kesimpulan : '.$result[1][0];}else{ echo "Welcome to our Prediction Website.";} ?></h5>
+                               <h5><?php if(isset($result)){echo $result[1].'<br>'.$result[2].'<br><br>Kesimpulan : '.$result[0];}else{ echo "Welcome to our Prediction Website.";} ?></h5>
                                 </h5>
                            </div>
                            <div class="modal-footer">
@@ -184,6 +182,47 @@ reset($_GET);
             </div>
         </div>
     </section>
+    <!-- Signup-->
+    <!-- Contact-->
+    <!-- <section class="contact-section bg-black">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Address</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50">4923 Market Street, Orlando FL</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-envelope text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Email</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50"><a href="#!">hello@yourdomain.com</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="card py-4 h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                            <h4 class="text-uppercase m-0">Phone</h4>
+                            <hr class="my-4 mx-auto" />
+                            <div class="small text-black-50">+1 (555) 902-8832</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="social d-flex justify-content-center">
+                <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
+            </div>
         </div>
     </section>
     <!-- Footer-->

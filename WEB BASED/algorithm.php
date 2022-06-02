@@ -21,7 +21,14 @@ class Rule{
     }
 }
 
-function getData($kota){
+function getData(){
+    $data = array();
+    $data["curahHujan"] = rand(0, 150);
+    $data["daerahResapan"] = rand(0.5, 5);
+    $data["jumlahPohon"] = rand(1500, 10000);
+    $data["kecepatanAngin"] = rand(10,50);
+    return $data;
+    /*
     switch ($kota){
         # !Expected Result : daerah berbahaya untuk dikunjungi
         case "yogyakarta":
@@ -115,7 +122,7 @@ function getData($kota){
                 "jumlahPohon" => "1077",
                 "kecepatanAngin" => "21.7"
             );
-    }
+    } */
 }
 
 function getFact($arrFact){
@@ -149,14 +156,14 @@ function getFact($arrFact){
 }
 
 function solve($facts){
-    $R1 = new Rule("A >= 50", "E");
-    $R2 = new Rule("A < 50", "F");
-    $R3 = new Rule("B >= 2", "G");
-    $R4 = new Rule("B < 2", "H");
-    $R5 = new Rule("C >= 5000", "I");
-    $R6 = new Rule("C < 5000", "J");
-    $R7 = new Rule("D >= 30", "K");
-    $R8 = new Rule("D < 30", "L");
+    $R1 = new Rule("A >= 50 mm/hari", "E");
+    $R2 = new Rule("A < 50 mm/hari", "F");
+    $R3 = new Rule("B >= 2 hektar", "G");
+    $R4 = new Rule("B < 2 hektar", "H");
+    $R5 = new Rule("C >= 5000 pohon", "I");
+    $R6 = new Rule("C < 5000 pohon", "J");
+    $R7 = new Rule("D >= 30 km/jam", "K");
+    $R8 = new Rule("D < 30 km/jam", "L");
     $R9 = new Rule("I AND K", "M");
     $R10 = new Rule("J AND K", "MN");
     $R11 = new Rule("I AND L", "MN");
@@ -175,8 +182,41 @@ function solve($facts){
     $R24 = new Rule("MN AND P", "YZ");
     $R25 = new Rule("P AND N", "Z");
     $rules = [$R1,$R2,$R3,$R4,$R5,$R6,$R7,$R8,$R9,$R10,$R11,$R12,$R13,$R14,$R15,$R16,$R17,$R18,$R19,$R20,$R21,$R22,$R23,$R24,$R25];
-    $consDef = array("O"=>"Daerah rawan banjir", "M"=>"Daerah rawan pohon tumbang", "N"=>"Daerah aman dari pohon tumbang", "P"=>"Daerah aman dari banjir","MN"=>"Waspada pohon tumbang","OP"=>"Waspada banjir");
+    $consDef = array(
+    "A"=>"Curah Hujan",
+    "B"=>"Luas Daerah Resapan",
+    "C"=>"Jumlah Pohon",
+    "D"=>"Kecepatan Angin",
+    "E"=>"Curah Hujan Tinggi",
+    "F"=>"Curah Hujan Rendah",
+    "G"=>"Daerah Resapan Luas",
+    "H"=>"Daerah Resapan Sempit",
+    "I"=>"Jumlah Pohon Banyak",
+    "J"=>"Jumlah Pohon Sedikit",
+    "K"=>"Kecepatan Angin Tinggi",
+    "L"=>"Kecepatan Angin Rendah",
+    "M"=>"Rawan Pohon Tumbang",
+    "MN"=>"Waspada Pohon Tumbang",
+    "N"=>"Aman dari Pohon Tumbang",
+    "O"=>"Rawan Banjir",
+    "OP"=>"Waspada Bahaya Banjir!",
+    "P"=>"Aman dari Banjir",
+    "X" =>"DAERAH SANGAT BERBAHAYA!",
+    "XY" =>"Daerah Berbahaya Tingkat Tinggi",
+    "Y" =>"Daerah Berbahaya Tingkat Menengah",
+    "YZ" =>"Daerah Berbahaya Tingkat Rendah",
+    "Z" =>"Daerah Aman untuk dikunjungi:)");
     
+    $activatedRule = [];
+    foreach($facts as $fact){
+        for($i = 0; $i < 8; $i++){
+            if($rules[$i]->getConsequent() == $fact){
+                $antencedentFact = $rules[$i]->getAntencedent();
+                $activatedRule["R".($i+1).": ".$consDef[$antencedentFact[0]].substr($antencedentFact,1)] = $consDef[$fact];
+                break;
+            }
+        }
+    }
     $result = [];
     while(true){
         for($i=0;$i<count($rules);$i++){
@@ -185,6 +225,8 @@ function solve($facts){
             $antecedents = explode("AND",$antecedents);
             if(in_array(trim($antecedents[0]),$facts) && in_array(trim($antecedents[1]),$facts)){
                 $facts[] = $consequent;
+                $activatedRule["R".($i+1).": ".$consDef[trim($antecedents[0])]." AND ".$consDef[trim($antecedents[1])]] = 
+                $consDef[trim($consequent)];
             }
         }
         // echo "Iterasi ke-" . $counter . "<br>";
@@ -213,5 +255,5 @@ function solve($facts){
     $result[] = $consDef[$facts[count($facts)-3]];
     $result[] = $consDef[$facts[count($facts)-2]];
 
-    return $result;
+    return array($activatedRule,$result);
 }
