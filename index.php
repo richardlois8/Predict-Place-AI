@@ -92,7 +92,7 @@ reset($_GET);
                         $result = solve($facts); 
                         $textRes = "";
                         foreach ($result[0] as $key => $value){
-                            $textRes .= $key." => ".$value."<br>";
+                            $textRes .= $key." -> ".$value."<br>";
                         }
                         echo $textRes;
                         // echo '<script>alert("'.$result.'")</script>';

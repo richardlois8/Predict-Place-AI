@@ -199,13 +199,13 @@ function solve($facts){
     "MN"=>"Waspada Pohon Tumbang",
     "N"=>"Aman dari Pohon Tumbang",
     "O"=>"Rawan Banjir",
-    "OP"=>"Waspada Bahaya Banjir!",
+    "OP"=>"Waspada Banjir!",
     "P"=>"Aman dari Banjir",
-    "X" =>"DAERAH SANGAT BERBAHAYA!",
-    "XY" =>"Daerah Berbahaya Tingkat Tinggi",
-    "Y" =>"Daerah Berbahaya Tingkat Menengah",
-    "YZ" =>"Daerah Berbahaya Tingkat Rendah",
-    "Z" =>"Daerah Aman untuk dikunjungi:)");
+    "X" =>"Daerah Sangat Berbahaya!",
+    "XY" =>"Daerah Berbahaya",
+    "Y" =>"Daerah Relatif Berbahaya",
+    "YZ" =>"Daerah Relatif Aman",
+    "Z" =>"Daerah Aman untuk dikunjungi");
     
     $activatedRule = [];
     foreach($facts as $fact){
