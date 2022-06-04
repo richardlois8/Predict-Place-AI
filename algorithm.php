@@ -233,22 +233,22 @@ function solve($facts){
         // var_dump($facts);
         // $counter++;
         if(in_array("X",$facts)){
-            $result[] = $consDef["X"]." Kami menyarankan untuk tidak mengunjungi daerah ini.";
+            $result[] = $consDef["X"].". Kami menyarankan untuk tidak mengunjungi daerah ini.";
             break;
         }elseif(in_array("Y",$facts)){
-            $result[] = $consDef["Y"]." Kami menyarankan anda untuk menghindari daerah ini.";
+            $result[] = $consDef["Y"].". Kami menyarankan anda untuk menghindari daerah ini.";
             break;
         }
         elseif(in_array("XY",$facts)){
-            $result[] = $consDef["XY"]." Kami menyarankan anda untuk menghindari daerah ini.";
+            $result[] = $consDef["XY"].". Kami menyarankan anda untuk menghindari daerah ini.";
             break;
         }
         elseif(in_array("YZ",$facts)){
-            $result[] = $consDef["YZ"]." Kami menyarankan anda untuk menghindari daerah ini.";
+            $result[] = $consDef["YZ"].". Kami menyarankan anda untuk menghindari daerah ini.";
             break;
         }
         elseif(in_array("Z",$facts)){
-            $result[] = $consDef["Z"]." Semoga perjalanan Anda menyenangkan.";
+            $result[] = $consDef["Z"].". Semoga perjalanan Anda menyenangkan.";
             break;
         }
     }
